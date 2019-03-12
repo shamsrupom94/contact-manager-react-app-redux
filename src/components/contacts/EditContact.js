@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Consumer } from "../../Contex";
+
 import TextGroup from "../assets/TextGroup";
 
 import { Link } from "react-router-dom";
