@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+
+import { connect } from "react-redux";
+import { deleteContact } from "../../actions/contactAction";
 
 class Contact extends Component {
   state = {
@@ -9,8 +13,9 @@ class Contact extends Component {
     this.setState({ toggleButton: !this.state.toggleButton });
   };
 
-  deleteClick = (id, dispatch) => {
+  deleteClick = id => {
     //DELETE OPTION
+    this.props.deleteContact(id);
   };
 
   render() {
@@ -31,6 +36,7 @@ class Contact extends Component {
               fontSize: "25px"
             }}
           />
+
           <i
             onClick={this.deleteClick.bind(this, id)}
             className="fas fa-trash-alt"
@@ -41,6 +47,18 @@ class Contact extends Component {
               fontSize: "25px"
             }}
           />
+          <Link to={`contact/edit/${id}`}>
+            <i
+              className="fas fa-edit"
+              style={{
+                cursor: "pointer",
+                color: "#0080FF",
+                float: "right",
+                fontSize: "25px",
+                marginRight: "1rem"
+              }}
+            />
+          </Link>
         </h5>
 
         {toggleButton ? (
@@ -59,6 +77,10 @@ class Contact extends Component {
 }
 
 Contact.propTypes = {
-  contact: PropTypes.object.isRequired
+  contact: PropTypes.object.isRequired,
+  deleteContact: PropTypes.func.isRequired
 };
-export default Contact;
+export default connect(
+  null,
+  { deleteContact }
+)(Contact);

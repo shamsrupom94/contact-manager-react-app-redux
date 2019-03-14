@@ -11,23 +11,29 @@ import Navbar from "./components/assets/Navbar";
 import About from "./components/pages/About";
 import NotFound from "./components/pages/NotFound";
 
+//Store
+import { Provider } from "react-redux";
+import store from "./store";
+
 class App extends Component {
   render() {
     return (
-      <Router>
-        <div className="App">
-          <Navbar titleName="React Contact Manager" />
-          <div className="container">
-            <Switch>
-              <Route exact path="/" component={ContactList} />
-              <Route exact path="/about" component={About} />
-              <Route exact path="/contact/add" component={AddContact} />
-              <Route exact path="/contact/edit/:id" component={EditContact} />
-              <Route component={NotFound} />
-            </Switch>
+      <Provider store={store}>
+        <Router>
+          <div className="App">
+            <Navbar titleName="React Contact Manager" />
+            <div className="container">
+              <Switch>
+                <Route exact path="/" component={ContactList} />
+                <Route exact path="/about" component={About} />
+                <Route exact path="/contact/add" component={AddContact} />
+                <Route exact path="/contact/edit/:id" component={EditContact} />
+                <Route component={NotFound} />
+              </Switch>
+            </div>
           </div>
-        </div>
-      </Router>
+        </Router>
+      </Provider>
     );
   }
 }
