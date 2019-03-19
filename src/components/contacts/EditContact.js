@@ -4,22 +4,36 @@ import TextGroup from "../assets/TextGroup";
 
 import { Link } from "react-router-dom";
 
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { getContact, updateContact } from "../../actions/contactAction";
+
 class EditContacts extends Component {
   state = {
-    contact: {},
     name: "",
     email: "",
     phone: "",
     error: {}
   };
-
+  componentWillReceiveProps(nextProps, nextState) {
+    const { name, email, phone } = nextProps.contact;
+    this.setState({
+      name,
+      email,
+      phone
+    });
+  }
+  componentDidMount() {
+    const { id } = this.props.match.params;
+    this.props.getContact(id);
+  }
   onChange = e => {
     this.setState({
       [e.target.name]: e.target.value
     });
   };
 
-  onSubmit = (dispatch, e) => {
+  onSubmit = e => {
     e.preventDefault();
     const { name, email, phone } = this.state;
 
@@ -36,14 +50,17 @@ class EditContacts extends Component {
       this.setState({ error: { phone: "Phone no. is required" } });
       return;
     }
+    const { id } = this.props.match.params;
     const updatedContact = {
+      id,
       name,
       email,
       phone
     };
 
-    const { id } = this.props.match.params;
     // UPDATE OPTION
+
+    this.props.updateContact(updatedContact);
     //Clear State
     this.setState({
       name: "",
@@ -113,4 +130,11 @@ class EditContacts extends Component {
     );
   }
 }
-export default EditContacts;
+
+const mapStateToProps = state => ({
+  contact: state.contact.contact
+});
+export default connect(
+  mapStateToProps,
+  { getContact, updateContact }
+)(EditContacts);

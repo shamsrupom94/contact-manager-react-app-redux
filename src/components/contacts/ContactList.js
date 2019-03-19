@@ -1,43 +1,15 @@
 import React, { Component } from "react";
 import Contact from "./Contact";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { getContacts } from "../../actions/contactAction";
 
 class ContactList extends Component {
-  state = {
-    contacts: [
-      {
-        id: 1,
-        name: "Shakib Al Hasan",
-        email: "shakib@gmail.com",
-        phone: "666-666-666"
-      },
-      {
-        id: 2,
-        name: "Tamim Iqbal",
-        email: "tamim@gmail.com",
-        phone: "666-777-666"
-      },
-      {
-        id: 3,
-        name: "Mushfiqur Rahim",
-        email: "mushi@gmail.com",
-        phone: "666-777-666"
-      },
-      {
-        id: 4,
-        name: "Mahmudullah",
-        email: "riad@gmail.com",
-        phone: "999-777-666"
-      },
-      {
-        id: 5,
-        name: "Mashrafee Murtuza",
-        email: "mp@gmail.com",
-        phone: "999-555-666"
-      }
-    ]
-  };
+  componentDidMount() {
+    this.props.getContacts();
+  }
   render() {
-    const { contacts } = this.state;
+    const { contacts } = this.props;
     return (
       <React.Fragment>
         <h2 className="display-4 mb-4">
@@ -56,4 +28,16 @@ class ContactList extends Component {
   }
 }
 
-export default ContactList;
+ContactList.propTypes = {
+  contacts: PropTypes.array.isRequired,
+  getContacts: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+  contacts: state.contact.contacts
+});
+
+export default connect(
+  mapStateToProps,
+  { getContacts }
+)(ContactList);

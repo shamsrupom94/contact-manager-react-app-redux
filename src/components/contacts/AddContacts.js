@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import TextGroup from "../assets/TextGroup";
 import { Link } from "react-router-dom";
+import uuid from "uuid";
+
+import { connect } from "react-redux";
+import { addContact } from "../../actions/contactAction";
 
 class AddContacts extends Component {
   state = {
@@ -15,7 +19,7 @@ class AddContacts extends Component {
     });
   };
 
-  onSubmit = (dispatch, e) => {
+  onSubmit = e => {
     e.preventDefault();
     const { name, email, phone } = this.state;
 
@@ -39,7 +43,7 @@ class AddContacts extends Component {
       phone: phone
     };
     //Adding Contact
-
+    this.props.addContact(newContact);
     this.setState({
       name: "",
       email: "",
@@ -108,4 +112,7 @@ class AddContacts extends Component {
     );
   }
 }
-export default AddContacts;
+export default connect(
+  null,
+  { addContact }
+)(AddContacts);
